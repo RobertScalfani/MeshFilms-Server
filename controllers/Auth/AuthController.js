@@ -1,16 +1,16 @@
-import * as usersDao from "./UsersDao.js";
+import * as authDao from "./AuthDao.js";
 
-const UsersController = (app) => {
+const AuthController = (app) => {
 
     const register = async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
-        const user = await usersDao.findUserByUsername(username);
+        const user = await authDao.findUserByUsername(username);
         if (user) {
             res.sendStatus(409);
             return;
         }
-        const newUser = await usersDao.createUser({username: username, password: password});
+        const newUser = await authDao.createUser({username: username, password: password});
         req.session["currentUser"] = newUser;
         res.json(newUser);
     };
@@ -19,7 +19,7 @@ const UsersController = (app) => {
         const username = req.body.username;
         const password = req.body.password;
         console.log(username);
-        const user = await usersDao.findUserByCredentials(username, password);
+        const user = await authDao.findUserByCredentials(username, password);
         if (user) {
             req.session["currentUser"] = user
             console.log("login");
@@ -45,7 +45,7 @@ const UsersController = (app) => {
     const update = async  (req, res) => {
         const profileToUpdate = req.params._id;
         const updates = req.body;
-        const updatedUser = await usersDao.updateUser(profileToUpdate, updates);
+        const updatedUser = await authDao.updateUser(profileToUpdate, updates);
         res.json(updatedUser);
     }
 
@@ -54,11 +54,11 @@ const UsersController = (app) => {
         res.sendStatus(200);
     };
 
-    app.post("/api/users/register", register);
-    app.post("/api/users/login", login);
-    app.get("/api/users/profile", profile);
-    app.post("/api/users/logout", logout);
-    app.put("/api/users/:_id", update);
+    app.post("/api/auth/register", register);
+    app.post("/api/auth/login", login);
+    app.get("/api/auth/profile", profile);
+    app.post("/api/auth/logout", logout);
+    app.put("/api/auth/:_id", update);
 };
 
-export default UsersController;
+export default AuthController;

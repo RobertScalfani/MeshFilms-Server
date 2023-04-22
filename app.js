@@ -2,8 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import session from "express-session";
 import mongoose from "mongoose";
-import UsersController from "./controllers/Users/UsersController.js";
+import AuthController from "./controllers/Auth/AuthController.js";
 import cookieParser from "cookie-parser";
+import UsersController from "./controllers/Auth/UsersController.js";
 
 const CONNECTION_STRING = 'mongodb+srv://robis345:ZcR1Cy0wp8zwmhCg@webdev-cluster.fukceya.mongodb.net/?retryWrites=true'
 
@@ -28,7 +29,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 // API Controllers.
-// RatingsController(app);
+AuthController(app);
 UsersController(app);
+// RatingsController(app);
 
 app.listen(process.env.PORT || 4000);
