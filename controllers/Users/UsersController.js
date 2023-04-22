@@ -21,7 +21,9 @@ const UsersController = (app) => {
         console.log(username);
         const user = await usersDao.findUserByCredentials(username, password);
         if (user) {
-            req.session["currentUser"] = user;
+            req.session["currentUser"] = user
+            console.log("login");
+            console.log(req.session.id);
             res.json(user);
         } else {
             res.sendStatus(404);
@@ -30,6 +32,8 @@ const UsersController = (app) => {
     };
 
     const profile = async (req, res) => {
+        console.log("profile" + req.session);
+        console.log(req.session.id);
         const currentUser = req.session["currentUser"];
         if (!currentUser) {
             res.sendStatus(404);
@@ -38,6 +42,13 @@ const UsersController = (app) => {
         res.json(currentUser);
     };
 
+    const update = async  (req, res) => {
+        const profileToUpdate = req.params._id;
+        const updates = req.body;
+        const updatedUser = await usersDao.updateUser(profileToUpdate, updates);
+        res.json(updatedUser);
+    }
+
     const logout = async (req, res) => {
         req.session.destroy();
         res.sendStatus(200);
@@ -45,9 +56,9 @@ const UsersController = (app) => {
 
     app.post("/api/users/register", register);
     app.post("/api/users/login", login);
-    app.post("/api/users/profile", profile);
+    app.get("/api/users/profile", profile);
     app.post("/api/users/logout", logout);
-    // app.put("/api/users", update);
+    app.put("/api/users/:_id", update);
 };
 
 export default UsersController;

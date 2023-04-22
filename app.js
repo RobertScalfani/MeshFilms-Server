@@ -3,26 +3,29 @@ import cors from 'cors';
 import session from "express-session";
 import mongoose from "mongoose";
 import UsersController from "./controllers/Users/UsersController.js";
+import cookieParser from "cookie-parser";
 
 const CONNECTION_STRING = 'mongodb+srv://robis345:ZcR1Cy0wp8zwmhCg@webdev-cluster.fukceya.mongodb.net/?retryWrites=true'
 
 // Express/DB setup.
 await mongoose.connect(CONNECTION_STRING);
 const app = express();
-app.use(
-    session({
-        secret: "secret",
-        resave: false,
-        saveUninitialized: true,
-    })
-);
+
+app.set('trust proxy', 1)
+
+app.use(session({
+    secret: 'abcdf'
+}));
+
 app.use(
     cors({
         credentials: true,
-        origin: "http://192.168.15.17:3000",
+        methods:['GET','POST','PUT','DELETE'],
+        origin: ['http://localhost:3000', 'http://192.168.15.17:3000'],
     })
 );
 app.use(express.json());
+app.use(cookieParser());
 
 // API Controllers.
 // RatingsController(app);
