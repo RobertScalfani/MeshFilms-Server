@@ -1,17 +1,17 @@
-import * as ratingsDao from './RatingsDao';
+import * as ratingsDao from "./RatingsDao.js";
 
 const RatingsController = (app) => {
 
     const addRating = async (req, res) => {
-        const rating = await ratingsDao.createRating(res.body);
         console.log("RATTT");
-        console.log(rating);
+        console.log(req.body);
+        const rating = await ratingsDao.createRating(req.body);
         res.json(rating)
     };
 
     const getAllRatings = async (req, res) => {
-        const allUsers = await ratingsDao.getAllFilms();
-        res.json(allUsers);
+        const allRatings = await ratingsDao.getAllRatings();
+        res.json(allRatings);
     };
 
     const getByReviewerId = async (req, res) => {
@@ -23,6 +23,7 @@ const RatingsController = (app) => {
     const getByFilmId = async (req, res) => {
         const filmId = req.params.filmId;
         const ratings = await ratingsDao.findByFilmId(filmId);
+        console.log(ratings);
         res.json(ratings);
     }
 
