@@ -25,10 +25,17 @@ const RatingsController = (app) => {
         res.json(ratings);
     }
 
+    const deleteRating = async (req, res) => {
+        const ratingId = req.params.ratingId;
+        await ratingsDao.deleteRating(ratingId);
+        res.json("OK");
+    }
+
     app.post("/api/ratings/addReview", addRating);
     app.get("/api/ratings/user/:reviewerId", getByReviewerId);
     app.get("/api/ratings/film/:filmId", getByFilmId);
     app.get("/api/ratings/getAllRatings", getAllRatings);
+    app.delete("/api/ratings/:ratingId", deleteRating);
 };
 
 export default RatingsController;

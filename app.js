@@ -6,6 +6,7 @@ import AuthController from "./controllers/Users/AuthController.js";
 import cookieParser from "cookie-parser";
 import UsersController from "./controllers/Users/UsersController.js";
 import RatingsController from "./controllers/Ratings/RatingsController.js";
+import FollowersController from "./controllers/Followers/FollowersController.js";
 
 const CONNECTION_STRING = 'mongodb+srv://robis345:ZcR1Cy0wp8zwmhCg@webdev-cluster.fukceya.mongodb.net/?retryWrites=true'
 
@@ -33,5 +34,6 @@ app.use(cookieParser());
 AuthController(app);
 UsersController(app);
 RatingsController(app);
+FollowersController(app);
 
 app.listen(process.env.PORT || 4000);
