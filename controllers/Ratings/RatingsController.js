@@ -3,8 +3,6 @@ import * as ratingsDao from "./RatingsDao.js";
 const RatingsController = (app) => {
 
     const addRating = async (req, res) => {
-        console.log("RATTT");
-        console.log(req.body);
         const rating = await ratingsDao.createRating(req.body);
         res.json(rating)
     };
