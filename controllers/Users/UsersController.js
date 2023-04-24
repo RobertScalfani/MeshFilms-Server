@@ -19,7 +19,14 @@ const UsersController = (app) => {
         res.json(user);
     }
 
+    const searchForUser = async (req, res) => {
+        const searchQuery = req.params.searchQuery;
+        const user = await usersDao.getUserByUsername(searchQuery);
+        res.json(user);
+    }
+
     app.get("/api/users/allUsers", findAllUsers);
+    app.get("/api/users/search/:searchQuery", searchForUser);
     app.get("/api/users/getUser/:profileId", getUser);
     app.delete("/api/users/deleteUser/:profileId", deleteUser);
 };
